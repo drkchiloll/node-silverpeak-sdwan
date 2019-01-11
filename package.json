@@ -1,0 +1,22 @@
+{
+  "name": "ts-lib",
+  "version": "1.0.0",
+  "description": "Typescript Library Builder",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "node_modules/.bin/tsc",
+    "dev": "node_modules/.bin/tsc -w",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "typescript",
+    "library"
+  ],
+  "author": "Anonymous",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^10.12.18",
+    "typescript": "^3.2.2"
+  }
+}
