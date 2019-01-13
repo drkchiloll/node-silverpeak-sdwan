@@ -1,7 +1,7 @@
 {
-  "name": "ts-lib",
+  "name": "node-silverpeak-sdwan",
   "version": "1.0.0",
-  "description": "Typescript Library Builder",
+  "description": "A Nodejs Wrapper for the SilverPeak Orchestrator API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -16,7 +16,12 @@
   "author": "Anonymous",
   "license": "MIT",
   "devDependencies": {
+    "@types/bluebird": "^3.5.25",
     "@types/node": "^10.12.18",
     "typescript": "^3.2.2"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bluebird": "^3.5.3"
   }
 }
