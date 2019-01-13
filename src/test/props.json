@@ -6,5 +6,55 @@
   "cloudRegistration": {
     "name": "wwtTempAccount139",
     "key": "00fcf820-60c5-402a-8d5e-4814eb18e5d4"
-  }
+  },
+  "groupCfg": {
+    "bandwidth": 1000000,
+    "dnsServer": "8.8.8.8",
+    "domain": "speak.local",
+    "group": "SilverPeak",
+    "ntp": "199.102.46.75",
+    "tag": "a1",
+    "timezone": "Etc/UTC"
+  },
+  "appliances": [{
+    "name": "SanFranciscoSP01-DC",
+    "ip": "192.168.0.70",
+    "location": {
+      "lat": 37.788780212402344,
+      "long": -122.40709686279297
+    },
+    "interfaces": [{
+      "name": "mgmt0",
+      "macAddress": "00:50:56:01:8d:dd"
+    }, {
+      "name": "lan0",
+      "macAddress": "00:50:56:01:8d:de"
+    }, {
+      "name": "lan1",
+      "macAddress": "00:50:56:01:8d:df"
+    }, {
+      "name": "lan2",
+      "macAddress": "00:50:56:01:8d:e0"
+    }]
+  }, {
+    "name": "SanFranciscoSP02-DC",
+    "ip": "192.168.0.71",
+    "location": {
+      "lat": 37.788780212402344,
+      "long": -122.40709686279297
+    },
+    "interfaces": [{
+      "name": "mgmt0",
+      "macAddress": "00:50:56:01:8e:01"
+    }, {
+      "name": "lan0",
+      "macAddress": "00:50:56:01:8e:02"
+    }, {
+      "name": "lan1",
+      "macAddress": "00:50:56:01:8e:03"
+    }, {
+      "name": "lan2",
+      "macAddress": "00:50:56:01:8e:04"
+    }]
+  }]
 }
