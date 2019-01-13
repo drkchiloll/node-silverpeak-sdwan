@@ -1,0 +1,10 @@
+{
+  "host": "192.168.0.50",
+  "user": "admin",
+  "password": "admin",
+  "license": "1981-8ac3-df60-7377-9828-70fc-bfbc-7d4a-4483-571c-691d-b265-3b35-e11a-653a-9f98",
+  "cloudRegistration": {
+    "name": "wwtTempAccount139",
+    "key": "00fcf820-60c5-402a-8d5e-4814eb18e5d4"
+  }
+}
