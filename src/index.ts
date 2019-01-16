@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 
-export class SilverPeakSdWan {
+export class SPOrchestrator {
   private request: AxiosInstance;
   private credentials: { user, password };
   private cloudHost = 'cloudportal.silver-peak.com'
@@ -57,8 +57,8 @@ export class SilverPeakSdWan {
     ));
   }
   private registerConfig(config) {
-    return this.request.post('/spPortal/registration',
-      config 
+    return this.request.post(
+      '/spPortal/registration', config 
     ).then(({ data }) => data);
   }
 }
