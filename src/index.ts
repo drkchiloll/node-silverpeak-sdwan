@@ -1,9 +1,9 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 
 export class SPOrchestrator {
   private request: AxiosInstance;
   private credentials: { user, password };
-  private cloudHost = 'cloudportal.silver-peak.com'
   constructor({ host, user, pass, port = 443, session = null }) {
     this.request = axios.create({
       baseURL: `https://${host}/gms/rest`,
@@ -35,6 +35,22 @@ export class SPOrchestrator {
         else return data;
       })
   }
+  get(params) {
+    return this.verifyAuth().then(() => this.request.get(
+      params.endpoint, 
+    )).then(({ data }) => data);
+  }
+  post(params) {
+    return this.verifyAuth().then(() => this.request.post(
+      params.endpoint, params.data
+    )).catch(console.log)
+  }
+  put() {}
+  delete(params) {
+    return this.verifyAuth().then(() => this.request.delete(
+      params.endpoint
+    ))
+  }
   license(licenseKey: string): Promise<LicenseResp> {
     return this.request.post('/gmsLicense', {
       licenseKey
@@ -44,9 +60,9 @@ export class SPOrchestrator {
     return this.request.get('/gmsLicense')
       .then(({ data }: AxiosResponse<LicenseResp>) => data);
   }
-  updateConfig({ name, key }): any {
+  updateConfig({ name, key }): Promise<SpPortalConfig> {
     const config: SpPortalConfig = {
-      host: this.cloudHost,
+      host: CloudPortal.host,
       port: 443,
       registration: { account: name, key } 
     };
@@ -58,8 +74,35 @@ export class SPOrchestrator {
   }
   private registerConfig(config) {
     return this.request.post(
-      '/spPortal/registration', config 
+      '/spPortal/registration', {}
     ).then(({ data }) => data);
+  }
+  setDns(settings) {
+    return this.request.post(
+      '/spPortal/gmsDns', {
+        'domain_name': settings.domainName,
+        'primary_dns': settings.primaryDns || '',
+        'secondary_dns': settings.secondaryDns || ''
+      }
+    )
+  }
+  updateMgmtSettings(settings) {
+    return this.request.put(
+      '/gmsConfig/managementSettings', {
+        configData: {
+          cpx: true, ec: true, nx: true, saas: true, vrx: true, vx: true
+        },
+        version: 0
+      }
+    )
+  }
+  changePassword(params): Promise<string> {
+    return this.request.post(
+      `/users/${params.user}/password`, {
+        oldPassword: params.old,
+        newPassword: params.new
+      }
+    ).then(({ data }) => data)
   }
 }
 
@@ -67,6 +110,28 @@ export interface AuthVerify {
   isLoggedIn: boolean;
   user: string;
   isMtoSso: boolean;
+}
+
+export interface GmsServerInfo {
+  release: string;
+  role: number;
+  serverStartTime: Date;
+  numActiveUsers: number;
+  hostName: string;
+  host: string;
+  time: Date;
+  serialNumber: string;
+  domain: string;
+  osRev: string;
+  memSize: number;
+  numCpus: number;
+  model: string;
+  hwRev: string;
+  usedDiskSpace: string;
+  freeDiskSpace: string;
+  loadAverage: string;
+  portalObjectId: string;
+  portalRegistrationUuid: string;
 }
 
 export interface LicenseResp {
@@ -85,8 +150,8 @@ export interface LicenseResp {
 }
 
 export interface SpPortalConfig {
-  host: string;
-  port: number,
+  host: CloudPortal.host;
+  port: CloudPortal.port,
   registration: {
     accountId?: string;
     account: string;
@@ -94,6 +159,20 @@ export interface SpPortalConfig {
     group?: string;
     site?: string;
   }
+}
+
+export interface InterfaceLabels {
+  wan: {
+    [key: string]: { name: string; active: boolean; }
+  };
+  lan: {
+    [key: string]: { name: string; active: boolean; }
+  };
+}
+
+export enum CloudPortal {
+  host = 'cloudportal.silver-peak.com',
+  port = 443
 }
 
 export interface SpPortalRegistration {

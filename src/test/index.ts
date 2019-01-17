@@ -1,12 +1,14 @@
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 import axios, { AxiosInstance } from 'axios';
 import properties from './props.json';
-import { SilverPeakSdWan } from '../index';
+import { SPOrchestrator } from '../index';
 
-const api = new SilverPeakSdWan({
-  host: properties.host,
-  user: properties.user,
-  pass: properties.password,
+const { host, user, password, cloudRegistration } = properties.gms;
+
+const api = new SPOrchestrator({
+  host,
+  user,
+  pass: password,
   port: 443
 });
 
@@ -26,8 +28,8 @@ const service = {
 }
 
 service.register({
-  name: properties.cloudRegistration.name,
-  key: properties.cloudRegistration.key
+  name: cloudRegistration.name,
+  key: cloudRegistration.key
 }).then((resp) => console.log(resp));
 
 // service.getLicense().then(console.log).catch(e => {

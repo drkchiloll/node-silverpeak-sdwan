@@ -1,15 +1,30 @@
 {
-  "host": "192.168.0.50",
-  "user": "admin",
-  "password": "admin",
-  "license": "1981-8ac3-df60-7377-9828-70fc-bfbc-7d4a-4483-571c-691d-b265-3b35-e11a-653a-9f98",
-  "cloudRegistration": {
-    "name": "wwtTempAccount139",
-    "key": "00fcf820-60c5-402a-8d5e-4814eb18e5d4"
+  "gms": {
+    "host": "192.168.0.50",
+    "user": "admin",
+    "password": "admin",
+    "license": "1981-8ac3-df60-7377-9828-70fc-bfbc-7d4a-4483-571c-691d-b265-3b35-e11a-653a-9f98",
+    "cloudRegistration": {
+      "name": "wwtTempAccount139",
+      "key": "00fcf820-60c5-402a-8d5e-4814eb18e5d4"
+    },
+    "appliances": ["SyndneySP01", "SanFranciscoSP01-DC", "SandFranciscoSP02-DC", "LodonSP01", "NewYorkSP01", "NewYorkSP02"],
+    "ha": {
+      "interfaces": ["lan1", "lan2"],
+      "applicances": ["SandFranciscoSP01-DC", "SanFranciscoSP02-DC"],
+      "subnet": "169.254.1.0/24"
+    },
+    "vrrp": {
+      "interface": "lan0",
+      "ip": "192.168.12.15"
+    },
+    "wanLabels": ["Internet", "MPLS", "LTE", "HA"],
+    "lanLabels": ["Data"],
+    "hostname": "Orchestrator"
   },
   "groupCfg": {
     "bandwidth": 1000000,
-    "dnsServer": "8.8.8.8",
+    "primaryDns": "8.8.8.8",
     "domain": "speak.local",
     "group": "SilverPeak",
     "ntp": "199.102.46.75",
@@ -17,6 +32,23 @@
     "timezone": "Etc/UTC"
   },
   "appliances": [{
+    "name": "LondonSP01",
+    "ip": "192.168.0.75",
+    "location": {
+      "lat": 51.51422882080078,
+      "long": 0.14199520647525787
+    },
+    "interfaces": [{
+      "name": "mgmt0",
+      "macAddress": "00:50:56:01:8d:f3"
+    }, {
+      "name": "lan0",
+      "macAddress": "00:50:56:01:8d:f4"
+    }, {
+      "name": "wan0",
+      "macAddress": "00:50:56:01:8d:df"
+    }]
+  }, {
     "name": "SanFranciscoSP01-DC",
     "ip": "192.168.0.70",
     "location": {
@@ -35,6 +67,9 @@
     }, {
       "name": "lan2",
       "macAddress": "00:50:56:01:8d:e0"
+    }, {
+      "name": "wan0",
+      "macAddress": "00:50:56:01:8d:e1"
     }]
   }, {
     "name": "SanFranciscoSP02-DC",
@@ -55,6 +90,75 @@
     }, {
       "name": "lan2",
       "macAddress": "00:50:56:01:8e:04"
+    }, {
+      "name": "wan0",
+      "macAddress": "00:50:56:01:8e:05"
+    }]
+  }, {
+    "name": "SydneySP01",
+    "ip": "192.168.0.74",
+    "location": {
+      "lat": 33.8688,
+      "long": 151.2093
+    },
+    "interfaces": [{
+      "name": "mgmt0",
+      "macAddress": "00:50:56:01:8d:ec"
+    }, {
+      "name": "lan0",
+      "macAddress": "00:50:56:01:8d:ed"
+    }, {
+      "name": "wan0",
+      "macAddress": "00:50:56:01:8d:f0"
+    }, {
+      "name": "wan1",
+      "macAddress": "00:50:56:01:8d:f1"
+    }]
+  }, {
+    "name": "NewYorkSP01",
+    "ip": "192.168.0.72",
+    "location": {
+      "lat": 40.7635383605957,
+      "long": -73.97224426269531
+    },
+    "interfaces": [{
+      "name": "mgmt0",
+      "macAddress": "00:50:56:01:8d:e5"
+    }, {
+      "name": "lan0",
+      "macAddress": "00:50:56:01:8d:e6"
+    }, {
+      "name": "lan1",
+      "macAddress": "00:50:56:01:8d:e7"
+    }, {
+      "name": "lan2",
+      "macAddress": "00:50:56:01:8d:e8"
+    }, {
+      "name": "wan0",
+      "macAddress": "00:50:56:01:8d:e9"
+    }]
+  }, {
+    "name": "NewYorkSP02",
+    "ip": "192.168.0.73",
+    "location": {
+      "lat": 40.7635383605957,
+      "long": -73.97224426269531
+    },
+    "interfaces": [{
+      "name": "mgmt0",
+      "macAddress": "00:50:56:01:8d:fa"
+    }, {
+      "name": "lan0",
+      "macAddress": "00:50:56:01:8d:fb"
+    }, {
+      "name": "lan1",
+      "macAddress": "00:50:56:01:8d:fc"
+    }, {
+      "name": "lan2",
+      "macAddress": "00:50:56:01:8d:fd"
+    }, {
+      "name": "wan0",
+      "macAddress": "00:50:56:01:8d:fe"
     }]
   }]
 }
