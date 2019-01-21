@@ -6,7 +6,7 @@ export class SPOrchestrator {
   private credentials: { user, password };
   constructor({ host, user, pass, port = 443, session = null }) {
     this.request = axios.create({
-      baseURL: `https://${host}/gms/rest`,
+      baseURL: `https://${host}:${port}/gms/rest`,
       headers: { 'Content-Type': 'application/json' },
       adapter: require('axios/lib/adapters/http'),
       withCredentials: true
@@ -43,18 +43,23 @@ export class SPOrchestrator {
   post(params) {
     return this.verifyAuth().then(() => this.request.post(
       params.endpoint, params.data
-    )).catch(console.log)
+    )).catch(() => {})
   }
-  put() {}
+  put(params) {
+    return this.verifyAuth().then(() => this.request.put(
+      params.endpoint, params.data
+    )).then(({ data }) => data);
+  }
   delete(params) {
     return this.verifyAuth().then(() => this.request.delete(
       params.endpoint
     ))
   }
-  license(licenseKey: string): Promise<LicenseResp> {
-    return this.request.post('/gmsLicense', {
-      licenseKey
-    }).then(({ data }) => data)
+  license(licenseKey: string) {
+    return this.post({
+      endpoint: '/gmsLicense',
+      data: { licenseKey }
+    }).then((result: AxiosResponse<LicenseResp>) => result)
   }
   getLicense(): Promise<LicenseResp> {
     return this.request.get('/gmsLicense')
@@ -77,32 +82,23 @@ export class SPOrchestrator {
       '/spPortal/registration', {}
     ).then(({ data }) => data);
   }
-  setDns(settings) {
-    return this.request.post(
-      '/spPortal/gmsDns', {
-        'domain_name': settings.domainName,
-        'primary_dns': settings.primaryDns || '',
-        'secondary_dns': settings.secondaryDns || ''
-      }
-    )
-  }
   updateMgmtSettings(settings) {
-    return this.request.put(
-      '/gmsConfig/managementSettings', {
+    return this.put({
+      endpoint: '/gmsConfig/managementSettings',
+      data: {
         configData: {
-          cpx: true, ec: true, nx: true, saas: true, vrx: true, vx: true
+          cpx: true, ec: true, nx: true,
+          saas: true, vrx: true, vx: true
         },
         version: 0
       }
-    )
+    }).then(({ data }) => data);
   }
-  changePassword(params): Promise<string> {
-    return this.request.post(
-      `/users/${params.user}/password`, {
-        oldPassword: params.old,
-        newPassword: params.new
-      }
-    ).then(({ data }) => data)
+  changePassword(params) {
+    return this.post({
+      endpoint: `/users/${params.user}/password`,
+      data: { oldPassword: params.old, newPassword: params.new }
+    })
   }
 }
 
@@ -184,4 +180,12 @@ export interface SpPortalRegistration {
   accountKey: string;
   pendingPoll: boolean;
   group: string;
+}
+
+export interface SPNtp {
+  ntp_enable: boolean;
+  ntp_server: [{
+    [server_1: string]: string;
+  }],
+  timezone: string;
 }
